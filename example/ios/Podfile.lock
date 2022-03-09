@@ -1,0 +1,35 @@
+PODS:
+  - bxmap_flutter (0.0.1):
+    - Flutter
+    - TencentMap-SDK
+  - Flutter (1.0.0)
+  - "permission_handler (5.1.0+2)":
+    - Flutter
+  - TencentMap-SDK (4.3.7)
+
+DEPENDENCIES:
+  - bxmap_flutter (from `.symlinks/plugins/bxmap_flutter/ios`)
+  - Flutter (from `Flutter`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+
+SPEC REPOS:
+  trunk:
+    - TencentMap-SDK
+
+EXTERNAL SOURCES:
+  bxmap_flutter:
+    :path: ".symlinks/plugins/bxmap_flutter/ios"
+  Flutter:
+    :path: Flutter
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
+
+SPEC CHECKSUMS:
+  bxmap_flutter: 478f45ce1e09bbda600fab156badd1270774e692
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
+  TencentMap-SDK: aee7ef00c7c183de9bbfb28d6888834356139ef7
+
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+
+COCOAPODS: 1.11.2
