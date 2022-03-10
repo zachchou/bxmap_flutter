@@ -2,6 +2,7 @@ part of bxmap_flutter;
 
 
 typedef void MapCreatedCallback(BXMapController controller);
+typedef void ArgumentCallback<T>(T argument);
 
 ///用于展示腾讯地图的Widget
 class BXMapWidget extends StatefulWidget {
@@ -15,6 +16,8 @@ class BXMapWidget extends StatefulWidget {
   final CameraPosition initialCameraPosition;
   /// 地图创建成功的回调, 收到此回调之后才可以操作地图
   final MapCreatedCallback? onMapCreated;
+  //相机视角移动回调
+  final ArgumentCallback<CameraPosition>? onCameraMoveEnd;
 
   const BXMapWidget({
     Key? key,
@@ -23,6 +26,7 @@ class BXMapWidget extends StatefulWidget {
     this.initialCameraPosition = const CameraPosition(target: LatLng(22.548515, 114.066112), zoom: 10),
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.onMapCreated,
+    this.onCameraMoveEnd
   }): super(key: key);
 
   @override

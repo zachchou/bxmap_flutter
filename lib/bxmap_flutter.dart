@@ -14,6 +14,7 @@ import 'base/ui.dart';
 import 'core/method_channel_bxmap_flutter.dart';
 import 'base/camera.dart';
 import 'base/location.dart';
+import 'core/map_event.dart';
 
 
 part 'src/bxmap_controller.dart';

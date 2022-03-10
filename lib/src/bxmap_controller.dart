@@ -1,5 +1,7 @@
 part of bxmap_flutter;
 
+
+
 const VIEW_TYPE = 'com.bixiu.bxmap_flutter';
 final MethodChannelBXMapFlutterMap _methodChannel = BXMapFLutterPlatform.instance as MethodChannelBXMapFlutterMap;
 
@@ -25,6 +27,15 @@ class BXMapController {
   }
 
   void _connectStreams(int mapId) {
-
+    if (_mapState.widget.onCameraMoveEnd != null) {
+      _methodChannel
+          .onCameraMoveEnd(mapId: mapId)
+          .listen((CameraPositionMoveEndEvent e) => _mapState.widget.onCameraMoveEnd!(e.value));
+    }
   }
+
+  void dispose() {
+    _methodChannel.dispose(id: mapId);
+  }
+
 }

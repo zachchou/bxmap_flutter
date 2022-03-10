@@ -86,14 +86,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final CameraPosition _bInitialPositon = CameraPosition(target: LatLng(26.038065, 119.370293));
+    final CameraPosition _bInitialPositon = CameraPosition(target: LatLng(26.038065, 119.370293));
     final height = window.physicalSize.height;
     final dpr = window.devicePixelRatio;
     final screenHeight = height / dpr;
     print("height: $height---dpr: $dpr----screenHeight: $screenHeight");
     final BXMapWidget map = BXMapWidget(
       apiKey: BXMapApiKey(androidKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2', iosKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2'),
-      // initialCameraPosition: _bInitialPositon,
+      initialCameraPosition: _bInitialPositon,
+      onCameraMoveEnd: _onCameraMoveEnd,
     );
     return MaterialApp(
       home: Scaffold(
@@ -110,5 +111,9 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  _onCameraMoveEnd(CameraPosition cameraPosition) {
+    print("came: $cameraPosition");
   }
 }

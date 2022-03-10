@@ -14,7 +14,7 @@
 #import <QMapKit/QMSSearcher.h>
 
 
-static const int CENTER_IV_WIDTH = 50;
+static const int CENTER_IV_WIDTH = 48;
 
 @interface BXMapViewController ()<QMapViewDelegate, QMSSearchDelegate>
 
@@ -69,7 +69,7 @@ static const int CENTER_IV_WIDTH = 50;
         _centerIV = [[UIImageView alloc] init];
         _centerIV.backgroundColor = [UIColor clearColor];
         _centerIV.frame = CGRectMake(0, 0, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
-        _centerIV.layer.opacity = 0.2;
+//        _centerIV.layer.opacity = 0.2;
         [_mapView addSubview:_centerIV];
         
 //        [_mapView setCenterCoordinate:cameraPosition.target animated:YES];
@@ -166,7 +166,9 @@ static const int CENTER_IV_WIDTH = 50;
         self.waitForMapCallBack = nil;
     }
     _centerIV.frame = CGRectMake(mapView.bounds.size.width/2.0-CENTER_IV_WIDTH/2.0, mapView.bounds.size.height/2.0-CENTER_IV_WIDTH/2.0, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
-    _centerIV.backgroundColor = UIColor.redColor;
+    NSString* key = [_registrar lookupKeyForAsset:@"packages/bxmap_flutter/images/center_location.png"];
+    _centerIV.image = [UIImage imageNamed:key];
+    
 }
 - (QAnnotationView *)mapView:(QMapView *)mapView viewForAnnotation:(id<QAnnotation>)annotation {
     if ([annotation isKindOfClass:[QPointAnnotation class]]) {
@@ -211,6 +213,10 @@ static const int CENTER_IV_WIDTH = 50;
 - (void)mapView:(QMapView *)mapView regionDidChangeAnimated:(BOOL)animated gesture:(BOOL)bGesture {
     NSLog(@"%s,mapView:%@ ",__func__,mapView);
     NSLog(@"longitude: %f---latitude: %f",mapView.centerCoordinate.longitude, mapView.centerCoordinate.latitude);
+    BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
+    cameraPo.target = mapView.centerCoordinate;
+    NSDictionary *dict = [cameraPo toDictionary];
+    [_channel invokeMethod:@"camera#onMoveEnd" arguments:@{@"position":dict}];
 }
 
 /**
