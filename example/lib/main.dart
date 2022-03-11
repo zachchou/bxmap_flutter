@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
     final BXMapWidget map = BXMapWidget(
       apiKey: BXMapApiKey(androidKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2', iosKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2'),
       initialCameraPosition: _bInitialPositon,
-      onCameraMoveEnd: _onCameraMoveEnd,
+      onCameraMoveEnd: _onBxCameraMoveEnd,
     );
     return MaterialApp(
       home: Scaffold(
@@ -113,7 +113,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _onCameraMoveEnd(CameraPosition cameraPosition) {
+  _onBxCameraMoveEnd(CameraPosition cameraPosition) {
     print("came: $cameraPosition");
   }
 }

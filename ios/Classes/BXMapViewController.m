@@ -22,6 +22,7 @@ static const int CENTER_IV_WIDTH = 48;
 @property(nonatomic, strong) QMSSearcher *mapSearcher;
 @property(nonatomic, strong) FlutterMethodChannel *channel;
 @property(nonatomic, strong) UIImageView *centerIV;
+@property(nonatomic, strong) UIImageView *backIV;
 @property(nonatomic, assign) int64_t viewId;
 @property(nonatomic, strong) NSObject<FlutterPluginRegistrar> *registrar;
 
@@ -72,6 +73,16 @@ static const int CENTER_IV_WIDTH = 48;
 //        _centerIV.layer.opacity = 0.2;
         [_mapView addSubview:_centerIV];
         
+        _backIV = [[UIImageView alloc] init];
+        _backIV.backgroundColor = [UIColor clearColor];
+        _backIV.userInteractionEnabled = YES;
+        _backIV.frame = CGRectMake(0, 0, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
+//        _centerIV.layer.opacity = 0.2;
+        [_mapView addSubview:_backIV];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backLocationTap)];
+        [_backIV addGestureRecognizer:tap];
+        
 //        [_mapView setCenterCoordinate:cameraPosition.target animated:YES];
 //        QPointAnnotation *point = [[QPointAnnotation alloc] init];
 //        point.coordinate = cameraPosition.target;
@@ -87,6 +98,9 @@ static const int CENTER_IV_WIDTH = 48;
         [_mapView setShowsUserLocation:YES];
     }
     return self;
+}
+- (void)backLocationTap {
+    [_mapView setCenterCoordinate:_mapView.userLocation.location.coordinate animated:YES];
 }
 - (nonnull UIView *)view {
     return _mapView;
@@ -165,9 +179,6 @@ static const int CENTER_IV_WIDTH = 48;
         self.waitForMapCallBack(nil);
         self.waitForMapCallBack = nil;
     }
-    _centerIV.frame = CGRectMake(mapView.bounds.size.width/2.0-CENTER_IV_WIDTH/2.0, mapView.bounds.size.height/2.0-CENTER_IV_WIDTH/2.0, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
-    NSString* key = [_registrar lookupKeyForAsset:@"packages/bxmap_flutter/images/center_location.png"];
-    _centerIV.image = [UIImage imageNamed:key];
     
 }
 - (QAnnotationView *)mapView:(QMapView *)mapView viewForAnnotation:(id<QAnnotation>)annotation {
@@ -226,6 +237,17 @@ static const int CENTER_IV_WIDTH = 48;
 - (void)mapViewDrawFrame:(QMapView *)mapView {
 //    NSLog(@"%s,mapView:%@ ",__func__,mapView);
 //    NSLog(@"longitude: %f---latitude: %f",mapView.centerCoordinate.longitude, mapView.centerCoordinate.latitude);
+    if (!self.mapInitComleted) {
+        [_mapView setLogoMargin:CGPointMake(6, 3) anchor:QMapLogoAnchorLeftBottom];
+        [_mapView setLogoScale:0.6];
+        _centerIV.frame = CGRectMake(mapView.bounds.size.width/2.0-CENTER_IV_WIDTH/2.0, mapView.bounds.size.height/2.0-CENTER_IV_WIDTH/2.0-25, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
+        NSString *key = [_registrar lookupKeyForAsset:@"packages/bxmap_flutter/images/center_location.png"];
+        _centerIV.image = [UIImage imageNamed:key];
+        
+        _backIV.frame = CGRectMake(mapView.bounds.size.width-CENTER_IV_WIDTH-10, mapView.bounds.size.height-CENTER_IV_WIDTH-10, CENTER_IV_WIDTH, CENTER_IV_WIDTH);
+        NSString *key1 = [_registrar lookupKeyForAsset:@"packages/bxmap_flutter/images/back_location.png"];
+        _backIV.image = [UIImage imageNamed:key1];
+    }
 }
 
 /**
@@ -247,6 +269,11 @@ static const int CENTER_IV_WIDTH = 48;
     NSLog(@"%s,mapView:%@ ",__func__,mapView);
     NSLog(@"longitude: %f---latitude: %f",mapView.centerCoordinate.longitude, mapView.centerCoordinate.latitude);
     NSLog(@"poi: %@", poi.name);
+    BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
+    cameraPo.target = poi.coordinate;
+    NSDictionary *dict = [cameraPo toDictionary];
+    [_channel invokeMethod:@"poi#didTap" arguments:@{@"position": dict}];
+    [mapView setCenterCoordinate:poi.coordinate animated:YES];
 }
 
 #pragma mark - QMSSearchDelegate
