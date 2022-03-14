@@ -38,4 +38,7 @@ class BXMapController {
     _methodChannel.dispose(id: mapId);
   }
 
+  Future<void> cameraChange(CameraPosition cameraPosition) async {
+    return _methodChannel.cameraChange(cameraPosition, mapId: mapId);
+  }
 }

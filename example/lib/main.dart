@@ -22,6 +22,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  BXMapController? _mapController;
 
   @override
   void initState() {
@@ -95,7 +96,9 @@ class _MyAppState extends State<MyApp> {
       apiKey: BXMapApiKey(androidKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2', iosKey: 'EEABZ-OXQLJ-S3ZFV-FFLSZ-UMT5Q-26FI2'),
       initialCameraPosition: _bInitialPositon,
       onCameraMoveEnd: _onBxCameraMoveEnd,
+      onMapCreated: _onMapCreated,
     );
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -113,7 +116,18 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  void _onMapCreated(BXMapController bxMapController) {
+    setState(() {
+      _mapController = bxMapController;
+    });
+  }
+
   _onBxCameraMoveEnd(CameraPosition cameraPosition) {
-    print("came: $cameraPosition");
+    // print("came: $cameraPosition");
+    // Future.delayed(Duration(seconds: 2)).then((value){
+    //   final CameraPosition _bInitialPositon = CameraPosition(target: LatLng(27.038065, 119.370293));
+    //   _mapController!.cameraChange(_bInitialPositon);
+    // });
+
   }
 }

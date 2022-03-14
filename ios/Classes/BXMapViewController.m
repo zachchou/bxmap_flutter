@@ -120,6 +120,12 @@ static const int CENTER_IV_WIDTH = 48;
                 weakself.waitForMapCallBack = result;
             }
     }];
+    
+    [self.channel addMethodName:@"map#cameraChange" withHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
+        NSLog(@"call.argument: %@", call.arguments[@"position"][@"target"]);
+        NSArray *array = call.arguments[@"position"][@"target"];
+        [weakself.mapView setCenterCoordinate:CLLocationCoordinate2DMake([array[0] doubleValue], [array[1] doubleValue]) animated:YES];
+    }];
 }
 
 #pragma mark - QMapViewDelegate
@@ -130,6 +136,17 @@ static const int CENTER_IV_WIDTH = 48;
  */
 - (void)mapViewWillStartLocatingUser:(QMapView *)mapView {
     NSLog(@"%s,mapView:%@",__func__,mapView);
+    
+    // 创建定位样式对象
+    QUserLocationPresentation *presentation = [[QUserLocationPresentation alloc] init];
+    // 定位图标
+    NSString *key2 = [_registrar lookupKeyForAsset:@"packages/bxmap_flutter/images/mine_location.png"];
+    UIImage *tmpImage = [UIImage imageNamed:key2];
+    presentation.icon = [self image:tmpImage byScalingToSize:CGSizeMake(40, 40)];
+    // 精度圈颜色
+    presentation.circleFillColor = [UIColor clearColor];
+    // 配置定位样式
+    [_mapView configureUserLocationPresentation:presentation];
 }
 
 /**
@@ -305,5 +322,24 @@ static const int CENTER_IV_WIDTH = 48;
  */
 - (void)searchWithGeoCodeSearchOption:(QMSGeoCodeSearchOption *)geoCodeSearchOption didReceiveResult:(QMSGeoCodeSearchResult *)geoCodeSearchResult {
     NSLog(@"QMSGeoCodeSearchResult: %@", geoCodeSearchResult);
+}
+
+- (UIImage *)image:(UIImage*)image byScalingToSize:(CGSize)targetSize {
+   UIImage *sourceImage = image;
+   UIImage *newImage = nil;
+
+   UIGraphicsBeginImageContext(targetSize);
+
+   CGRect thumbnailRect = CGRectZero;
+   thumbnailRect.origin = CGPointZero;
+   thumbnailRect.size.width  = targetSize.width;
+   thumbnailRect.size.height = targetSize.height;
+
+   [sourceImage drawInRect:thumbnailRect];
+
+   newImage = UIGraphicsGetImageFromCurrentImageContext();
+   UIGraphicsEndImageContext();
+
+   return newImage ;
 }
 @end

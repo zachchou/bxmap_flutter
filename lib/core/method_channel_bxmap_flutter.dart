@@ -69,6 +69,17 @@ class MethodChannelBXMapFlutterMap implements BXMapFLutterPlatform {
     return _events(mapId).whereType<CameraPositionMoveEndEvent>();
   }
 
+  Future<void> cameraChange(
+      CameraPosition cameraPosition,
+      {required int mapId}) async {
+    return channel(mapId).invokeMethod(
+      "map#cameraChange",
+      <String, dynamic> {
+        "position": cameraPosition.toMap()
+      }
+    );
+  }
+
   Future<dynamic> _handleMethodCall(MethodCall call, int mapId) async {
     switch (call.method) {
       case 'location#changed':
