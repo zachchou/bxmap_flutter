@@ -1,21 +1,23 @@
 group 'com.bixiu.bxmap_flutter'
 version '1.0'
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
-    }
-}
-
 rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+    }
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
     }
 }
 
@@ -27,4 +29,8 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+}
+
+dependencies {
+    implementation 'com.tencent.map:tencent-map-vector-sdk:4.4.7.3'
 }
