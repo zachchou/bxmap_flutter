@@ -2,6 +2,8 @@ package com.bixiu.bxmap_flutter;
 
 import android.content.Context;
 
+import java.util.Map;
+
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
@@ -20,6 +22,8 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
 
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
-        return null;
+        final BxMapOptionsBuilder builder = new BxMapOptionsBuilder();
+        Map<String, Object> params = null;
+        return builder.build(viewId, context, binaryMessenger, lifecycleProvider);
     }
 }
