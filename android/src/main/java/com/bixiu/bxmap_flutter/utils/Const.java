@@ -9,6 +9,7 @@ public class Const {
     public static final String METHOD_MAP_SATELLITE_IMAGE_APPROVAL_NUMBER = "map#satelliteImageApprovalNumber";
     public static final String METHOD_MAP_UPDATE = "map#update";
     public static final String METHOD_MAP_MOVE_CAMERA = "camera#move";
+    public static final String METHOD_MAP_CAMERA_MOVE_END = "camera#onMoveEnd";
     public static final String METHOD_MAP_SET_RENDER_FPS = "map#setRenderFps";
     public static final String METHOD_MAP_TAKE_SNAPSHOT = "map#takeSnapshot";
     public static final String METHOD_MAP_CLEAR_DISK = "map#clearDisk";
@@ -19,6 +20,7 @@ public class Const {
             METHOD_MAP_WAIT_FOR_MAP,
             METHOD_MAP_UPDATE,
             METHOD_MAP_MOVE_CAMERA,
+            METHOD_MAP_CAMERA_MOVE_END,
             METHOD_MAP_SET_RENDER_FPS,
             METHOD_MAP_TAKE_SNAPSHOT,
             METHOD_MAP_CLEAR_DISK};

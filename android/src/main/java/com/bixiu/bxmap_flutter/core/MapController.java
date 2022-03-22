@@ -69,6 +69,9 @@ public class MapController
                 }
                 mapReadyResult = result;
                 break;
+            case Const.METHOD_MAP_CAMERA_MOVE_END:
+
+                break;
             default:
                 LogUtil.w(CLASS_NAME, "doMethodCall cannot find mapId: " + call.method);
                 break;

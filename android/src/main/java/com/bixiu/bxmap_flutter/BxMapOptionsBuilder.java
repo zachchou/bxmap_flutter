@@ -29,7 +29,5 @@ public class BxMapOptionsBuilder implements BxMapOptionsSink {
     }
 
     @Override
-    public void setCamera(CameraPosition cameraPosition) {
-
-    }
+    public void setCamera(CameraPosition cameraPosition) { }
 }

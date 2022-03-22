@@ -33,4 +33,5 @@ android {
 
 dependencies {
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.4.7.3'
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.4.3'
 }
