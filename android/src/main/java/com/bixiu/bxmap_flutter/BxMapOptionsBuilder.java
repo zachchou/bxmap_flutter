@@ -12,6 +12,8 @@ import io.flutter.plugin.common.BinaryMessenger;
 public class BxMapOptionsBuilder implements BxMapOptionsSink {
     private static final String CLASS_NAME = "BxMapOptionsBuilder";
     private final TencentMapOptions options = new TencentMapOptions();
+//    private BxMapPlatformView bxMapPlatformView;
+    private CameraPosition cameraPosition;
     private float minZoomLevel = 3;
     private float maxZoomLevel = 20;
 
@@ -20,7 +22,7 @@ public class BxMapOptionsBuilder implements BxMapOptionsSink {
                             BinaryMessenger binaryMessenger,
                             LifecycleProvider lifecycleProvider) {
         try {
-            final BxMapPlatformView bxMapPlatformView = new BxMapPlatformView(id, context, binaryMessenger, lifecycleProvider, options);
+            final BxMapPlatformView bxMapPlatformView = new BxMapPlatformView(id, context, binaryMessenger, lifecycleProvider, options, cameraPosition);
             return  bxMapPlatformView;
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "build", e);
@@ -29,5 +31,7 @@ public class BxMapOptionsBuilder implements BxMapOptionsSink {
     }
 
     @Override
-    public void setCamera(CameraPosition cameraPosition) { }
+    public void setCamera(CameraPosition cameraPosition) {
+        this.cameraPosition = cameraPosition;
+    }
 }

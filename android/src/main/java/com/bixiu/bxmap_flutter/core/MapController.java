@@ -14,6 +14,7 @@ import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.MapPoi;
+import com.tencent.tencentmap.mapsdk.maps.model.TencentMapGestureListener;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -26,10 +27,12 @@ public class MapController
         TencentMap.OnMyLocationChangeListener,
         TencentMap.OnCameraChangeListener,
         TencentMap.OnMapClickListener,
+        TencentMapGestureListener,
         TencentMap.OnMapLongClickListener,
         TencentMap.OnMapPoiClickListener{
     private static final String CLASS_NAME = "MapController";
     private static boolean hasStarted = false;
+    private static boolean firstMyLocation = false;
     private final MethodChannel methodChannel;
     private final TextureMapView mapView;
     private final TencentMap tmap;
@@ -49,6 +52,7 @@ public class MapController
         tmap.setOnMapClickListener(this);
         tmap.setOnMapLongClickListener(this);
         tmap.setOnMapPoiClickListener(this);
+        tmap.addTencentMapGestureListener(this);
     }
 
 
@@ -88,6 +92,7 @@ public class MapController
     @Override
     public void onMapLoaded() {
         LogUtil.i(CLASS_NAME, "onMapLoaded====>");
+        System.out.println(CLASS_NAME + " onMapLoaded====> ");
         try {
             mapLoaded = true;
             if (mapReadyResult != null) {
@@ -96,40 +101,92 @@ public class MapController
             }
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "onMapLoaded throwable ", e);
+            System.out.println(CLASS_NAME + " onMapLoaded====>throwable " + e);
         }
         if (LogUtil.isDebugModel && !hasStarted) {
             hasStarted = true;
-            int index = myArray[0];
+//            int index = myArray[0];
         }
     }
 
     @Override
     public void onMyLocationChange(Location location) {
-
+        System.out.println(CLASS_NAME + " onMyLocationChange " + location);
+//        if (!firstMyLocation) {
+//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            tmap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//            firstMyLocation = true;
+//        }
     }
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-
+        System.out.println(CLASS_NAME + " onCameraChange " + cameraPosition);
     }
 
     @Override
     public void onCameraChangeFinished(CameraPosition cameraPosition) {
-
+        System.out.println(CLASS_NAME + " onCameraChangeFinished " + cameraPosition);
     }
 
+    // 点击地图任意位置
     @Override
     public void onMapClick(LatLng latLng) {
-
+        System.out.println(CLASS_NAME + " onMapClick " + latLng);
+        tmap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
+        System.out.println(CLASS_NAME + " onMapClick " + latLng);
+    }
+
+    // 点击POI点
+    @Override
+    public void onClicked(MapPoi mapPoi) {
+        System.out.println(CLASS_NAME + " onClicked " + mapPoi);
+        tmap.moveCamera(CameraUpdateFactory.newLatLng(mapPoi.getPosition()));
+//        methodChannel.invokeMethod("poi#didTap",);
 
     }
 
     @Override
-    public void onClicked(MapPoi mapPoi) {
+    public boolean onDoubleTap(float v, float v1) {
+        return false;
+    }
 
+    @Override
+    public boolean onSingleTap(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onFling(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onLongPress(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onDown(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onUp(float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onMapStable() {
+        System.out.println(CLASS_NAME + " onMapStable ");
     }
 }
