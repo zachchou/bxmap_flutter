@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.bixiu.bxmap_flutter.MyMethodCallHandler;
 import com.bixiu.bxmap_flutter.utils.Const;
+import com.bixiu.bxmap_flutter.utils.ConvertUtil;
 import com.bixiu.bxmap_flutter.utils.LogUtil;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.MapView;
@@ -15,6 +16,9 @@ import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.MapPoi;
 import com.tencent.tencentmap.mapsdk.maps.model.TencentMapGestureListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -122,6 +126,10 @@ public class MapController
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
         System.out.println(CLASS_NAME + " onCameraChange " + cameraPosition);
+        final Map<String, Object> arguments = new HashMap<>(2);
+        arguments.put("position", ConvertUtil.cameraPositonToMap(cameraPosition));
+        System.out.println("position" + arguments);
+        methodChannel.invokeMethod("camera#onMoveEnd", arguments);
     }
 
     @Override
