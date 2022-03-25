@@ -29,7 +29,8 @@ static const int CENTER_IV_WIDTH = 48;
 @property(nonatomic,copy) FlutterResult waitForMapCallBack; // waitForMap的回调，仅当地图没有加载完成时缓存使用
 @property(nonatomic, assign) BOOL mapInitComleted; // 地图初始化完成，首帧回调的标记
 @property(nonatomic, assign) BOOL isLocation;
- 
+@property(nonatomic, strong) BXMapCameraPosition *cameraPosition;
+
 @property(nonatomic, assign) QMapRect initLimitMapRect; // 初始化时，限制地图适用范围；如果{0,0,0,0},则没有限制
 
 @end
@@ -56,7 +57,7 @@ static const int CENTER_IV_WIDTH = 48;
         NSAssert([QMapServices sharedServices].APIKey != nil, @"没有设置APIKey, 请先设置key");
         
         NSDictionary *cameraDict = [dict objectForKey:@"initialCameraPosition"];
-        BXMapCameraPosition *cameraPosition = [BXMapJsonUtils modelFromDict:cameraDict modelClass:[BXMapCameraPosition class]];
+        _cameraPosition = [BXMapJsonUtils modelFromDict:cameraDict modelClass:[BXMapCameraPosition class]];
         
         _viewId = viewId;
         
@@ -65,7 +66,8 @@ static const int CENTER_IV_WIDTH = 48;
         _mapView.delegate = self;
         _mapView.accessibilityElementsHidden = NO;
         _mapView.showsCompass = NO; // 是否显示指南针
-        _mapView.zoomLevel = cameraPosition.zoom;
+        _mapView.zoomLevel = _cameraPosition.zoom;
+        [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(_cameraPosition.target.latitude, _cameraPosition.target.longitude) animated:YES];
         
         _centerIV = [[UIImageView alloc] init];
         _centerIV.backgroundColor = [UIColor clearColor];
@@ -166,7 +168,7 @@ static const int CENTER_IV_WIDTH = 48;
 - (void)mapView:(QMapView *)mapView didUpdateUserLocation:(QUserLocation *)userLocation fromHeading:(BOOL)fromHeading {
     NSLog(@"%s,mapView:%@ QUserLocation: %@",__func__,mapView, userLocation);
     NSLog(@"userLocation: %f----%f", _mapView.userLocation.location.coordinate.latitude, _mapView.userLocation.location.coordinate.longitude);
-    if (!_isLocation) {
+    if (!_isLocation && !_cameraPosition) {
         CLLocationCoordinate2D userL = CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude);
         [_mapView setCenterCoordinate:userL];
         _isLocation = true;
