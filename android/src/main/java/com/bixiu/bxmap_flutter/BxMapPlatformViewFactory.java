@@ -20,6 +20,7 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
     private final LifecycleProvider lifecycleProvider;
     private final FlutterPlugin.FlutterAssets flutterAssets;
     private final FlutterPlugin.FlutterPluginBinding binding;
+    private String apiKey;
 
     BxMapPlatformViewFactory(BinaryMessenger binaryMessenger, LifecycleProvider lifecycleProvider,
                              FlutterPlugin.FlutterAssets flutterAssets, FlutterPlugin.FlutterPluginBinding binding) {
@@ -61,7 +62,8 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
 
 
             if (params.containsKey("apiKey")) {
-                ConvertUtil.checkApiKey(params.get("apiKey"));
+                apiKey = ConvertUtil.checkApiKey(params.get("apiKey"));
+
             }
 
             if (params.containsKey("debugMode")) {
@@ -71,6 +73,6 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "create", e);
         }
-        return builder.build(viewId, context, flutterAssets, binaryMessenger, lifecycleProvider, binding);
+        return builder.build(viewId, context, apiKey, flutterAssets, binaryMessenger, lifecycleProvider, binding);
     }
 }

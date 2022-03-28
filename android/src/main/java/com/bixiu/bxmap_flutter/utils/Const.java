@@ -13,6 +13,7 @@ public class Const {
     public static final String METHOD_MAP_SET_RENDER_FPS = "map#setRenderFps";
     public static final String METHOD_MAP_TAKE_SNAPSHOT = "map#takeSnapshot";
     public static final String METHOD_MAP_CLEAR_DISK = "map#clearDisk";
+    public static final String METHOD_MAP_CAMERA_CHANGE = "map#cameraChange";
 
     public static final String[] METHOD_ID_LIST_FOR_MAP = {
             METHOD_MAP_CONTENT_APPROVAL_NUMBER,
@@ -23,6 +24,7 @@ public class Const {
             METHOD_MAP_CAMERA_MOVE_END,
             METHOD_MAP_SET_RENDER_FPS,
             METHOD_MAP_TAKE_SNAPSHOT,
+            METHOD_MAP_CAMERA_CHANGE,
             METHOD_MAP_CLEAR_DISK};
 
 

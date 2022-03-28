@@ -20,10 +20,12 @@ public class BxMapOptionsBuilder implements BxMapOptionsSink {
 
     BxMapPlatformView build(int id,
                             Context context,
+                            String apiKey,
                             FlutterPlugin.FlutterAssets flutterAssets,
                             BinaryMessenger binaryMessenger,
                             LifecycleProvider lifecycleProvider, FlutterPlugin.FlutterPluginBinding binding) {
         try {
+            options.setMapKey(apiKey);
             final BxMapPlatformView bxMapPlatformView = new BxMapPlatformView(id, context, flutterAssets, binaryMessenger, lifecycleProvider, options, cameraPosition, binding);
             return  bxMapPlatformView;
         } catch (Throwable e) {

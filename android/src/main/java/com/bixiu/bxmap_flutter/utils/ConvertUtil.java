@@ -25,9 +25,9 @@ public class ConvertUtil {
     public static float density;
     private static String apiKey;
 
-    public static void checkApiKey(Object object) {
+    public static String checkApiKey(Object object) {
         if (object == null) {
-            return;
+            return "";
         }
 
         Map<?, ?> kepMap = toMap(object);
@@ -36,8 +36,10 @@ public class ConvertUtil {
             final String bKey = toString(keyObject);
             if (TextUtils.isEmpty(apiKey) || !bKey.equals(apiKey)) {
                 apiKey = bKey;
+                return apiKey;
             }
         }
+        return "";
     }
 
     public static int toLocalMapType(int dartMapIndex) {

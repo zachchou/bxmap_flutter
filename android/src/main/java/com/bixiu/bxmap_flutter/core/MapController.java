@@ -18,6 +18,7 @@ import com.tencent.tencentmap.mapsdk.maps.model.MapPoi;
 import com.tencent.tencentmap.mapsdk.maps.model.TencentMapGestureListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
@@ -76,6 +77,12 @@ public class MapController
                     return;
                 }
                 mapReadyResult = result;
+                break;
+            case Const.METHOD_MAP_CAMERA_CHANGE:
+                Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+                Map<String, Object> position = (Map<String, Object>) arguments.get("position");
+                CameraPosition cameraPosition = ConvertUtil.toCameraPosition(position);
+                setCamera(cameraPosition);
                 break;
             case Const.METHOD_MAP_CAMERA_MOVE_END:
 

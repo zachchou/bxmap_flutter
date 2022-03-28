@@ -29,6 +29,7 @@ import com.bixiu.bxmap_flutter.utils.LogUtil;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationManagerOptions;
 import com.tencent.map.geolocation.TencentLocationRequest;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.LocationSource;
@@ -103,8 +104,10 @@ public class BxMapPlatformView
             backIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-                    map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    if (userLocation != null) {
+                        LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+                        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    }
                 }
             });
             centerIV = new ImageView(context);
@@ -168,6 +171,7 @@ public class BxMapPlatformView
     private void initLocation(Context context){
         //用于访问腾讯定位服务的类, 周期性向客户端提供位置更新
         locationManager = TencentLocationManager.getInstance(mContext);
+
         //创建定位请求
         locationRequest = TencentLocationRequest.create();
         //设置定位周期（位置监听器回调周期）为3s
