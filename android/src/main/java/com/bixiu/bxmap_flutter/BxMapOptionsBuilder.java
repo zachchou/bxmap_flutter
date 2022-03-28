@@ -7,6 +7,7 @@ import com.bixiu.bxmap_flutter.utils.LogUtil;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapOptions;
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 
 public class BxMapOptionsBuilder implements BxMapOptionsSink {
@@ -19,10 +20,11 @@ public class BxMapOptionsBuilder implements BxMapOptionsSink {
 
     BxMapPlatformView build(int id,
                             Context context,
+                            FlutterPlugin.FlutterAssets flutterAssets,
                             BinaryMessenger binaryMessenger,
-                            LifecycleProvider lifecycleProvider) {
+                            LifecycleProvider lifecycleProvider, FlutterPlugin.FlutterPluginBinding binding) {
         try {
-            final BxMapPlatformView bxMapPlatformView = new BxMapPlatformView(id, context, binaryMessenger, lifecycleProvider, options, cameraPosition);
+            final BxMapPlatformView bxMapPlatformView = new BxMapPlatformView(id, context, flutterAssets, binaryMessenger, lifecycleProvider, options, cameraPosition, binding);
             return  bxMapPlatformView;
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "build", e);

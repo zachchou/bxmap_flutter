@@ -27,31 +27,31 @@ public class BxmapFlutterPlugin implements FlutterPlugin, ActivityAware {
 
   private static  final String VIEW_TYPE = "com.bixiu.bxmap_flutter";
 
-  public static void registerWith(PluginRegistry.Registrar registrar) {
-    LogUtil.i(CLASS_NAME, "registerWith====>");
-
-    final Activity activity = registrar.activity();
-    if (activity == null) {
-      LogUtil.w(CLASS_NAME, "activity is null!");
-      return;
-    }
-    if (activity instanceof LifecycleOwner) {
-      registrar.platformViewRegistry().registerViewFactory(
-              VIEW_TYPE,
-              new BxMapPlatformViewFactory(
-                      registrar.messenger(),
-                      new LifecycleProvider() {
-                        @Override
-                        public Lifecycle getLifecycle() {
-                          return ((LifecycleOwner) activity).getLifecycle();
-                        }
-                      }));
-    } else {
-      registrar.platformViewRegistry().registerViewFactory(
-              VIEW_TYPE,
-              new BxMapPlatformViewFactory(registrar.messenger(), new ProxyLifecycleProvider(activity)));
-    }
-  }
+//  public static void registerWith(PluginRegistry.Registrar registrar) {
+//    LogUtil.i(CLASS_NAME, "registerWith====>");
+//
+//    final Activity activity = registrar.activity();
+//    if (activity == null) {
+//      LogUtil.w(CLASS_NAME, "activity is null!");
+//      return;
+//    }
+//    if (activity instanceof LifecycleOwner) {
+//      registrar.platformViewRegistry().registerViewFactory(
+//              VIEW_TYPE,
+//              new BxMapPlatformViewFactory(
+//                      registrar.messenger(),
+//                      new LifecycleProvider() {
+//                        @Override
+//                        public Lifecycle getLifecycle() {
+//                          return ((LifecycleOwner) activity).getLifecycle();
+//                        }
+//                      }));
+//    } else {
+//      registrar.platformViewRegistry().registerViewFactory(
+//              VIEW_TYPE,
+//              new BxMapPlatformViewFactory(registrar.messenger(), new ProxyLifecycleProvider(activity)));
+//    }
+//  }
 
   public BxmapFlutterPlugin() {}
 
@@ -71,7 +71,7 @@ public class BxmapFlutterPlugin implements FlutterPlugin, ActivityAware {
                               public Lifecycle getLifecycle() {
                                 return lifecycle;
                               }
-                            }));
+                            }, binding.getFlutterAssets(), binding));
   }
 
   @Override

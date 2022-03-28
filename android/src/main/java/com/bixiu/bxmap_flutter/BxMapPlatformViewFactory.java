@@ -8,6 +8,7 @@ import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 
 import java.util.Map;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
@@ -17,11 +18,16 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
     private static final String CLASS_NAME = "BxMapPlatformViewFactory";
     private final BinaryMessenger binaryMessenger;
     private final LifecycleProvider lifecycleProvider;
+    private final FlutterPlugin.FlutterAssets flutterAssets;
+    private final FlutterPlugin.FlutterPluginBinding binding;
 
-    BxMapPlatformViewFactory(BinaryMessenger binaryMessenger, LifecycleProvider lifecycleProvider) {
+    BxMapPlatformViewFactory(BinaryMessenger binaryMessenger, LifecycleProvider lifecycleProvider,
+                             FlutterPlugin.FlutterAssets flutterAssets, FlutterPlugin.FlutterPluginBinding binding) {
         super(StandardMessageCodec.INSTANCE);
         this.binaryMessenger = binaryMessenger;
         this.lifecycleProvider = lifecycleProvider;
+        this.flutterAssets = flutterAssets;
+        this.binding = binding;
     }
 
     @Override
@@ -65,6 +71,6 @@ public class BxMapPlatformViewFactory extends PlatformViewFactory {
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "create", e);
         }
-        return builder.build(viewId, context, binaryMessenger, lifecycleProvider);
+        return builder.build(viewId, context, flutterAssets, binaryMessenger, lifecycleProvider, binding);
     }
 }

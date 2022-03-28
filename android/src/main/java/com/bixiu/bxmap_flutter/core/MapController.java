@@ -126,15 +126,15 @@ public class MapController
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
         System.out.println(CLASS_NAME + " onCameraChange " + cameraPosition);
-        final Map<String, Object> arguments = new HashMap<>(2);
-        arguments.put("position", ConvertUtil.cameraPositonToMap(cameraPosition));
-        System.out.println("position" + arguments);
-        methodChannel.invokeMethod("camera#onMoveEnd", arguments);
     }
 
     @Override
     public void onCameraChangeFinished(CameraPosition cameraPosition) {
         System.out.println(CLASS_NAME + " onCameraChangeFinished " + cameraPosition);
+        final Map<String, Object> arguments = new HashMap<>(2);
+        arguments.put("position", ConvertUtil.cameraPositonToMap(cameraPosition));
+        System.out.println("position" + arguments);
+        methodChannel.invokeMethod("camera#onMoveEnd", arguments);
     }
 
     // 点击地图任意位置
