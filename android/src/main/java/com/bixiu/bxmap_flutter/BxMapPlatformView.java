@@ -264,7 +264,7 @@ public class BxMapPlatformView
             if (disposed) {
                 return;
             }
-            destroyMapViewIfNecessary();
+//            destroyMapViewIfNecessary();
         } catch (Throwable e) {
             LogUtil.e(CLASS_NAME, "onDestroy", e);
         }
