@@ -74,6 +74,7 @@ public class BxMapPlatformView
     private ImageView centerIV;
     private ImageView backIV;
     private Location userLocation;
+    private CameraPosition mCameraPosition;
     private boolean disposed = false;
     private static final int CENTER_IV_WIDTH = 48;
 
@@ -100,6 +101,7 @@ public class BxMapPlatformView
             mContext = context;
             mapController = new MapController(methodChannel, mapView);
             mapController.setCamera(cameraPosition);
+            mCameraPosition = cameraPosition;
             backIV = new ImageView(context);
             backIV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -358,7 +360,7 @@ public class BxMapPlatformView
             location.setBearing((float) tencentLocation.getBearing());
             //将位置信息返回给地图
             locationChangedListener.onLocationChanged(location);
-
+            mapController.setCamera(mCameraPosition);
         }
     }
 
