@@ -32,6 +32,12 @@ class BXMapController {
           .onCameraMoveEnd(mapId: mapId)
           .listen((CameraPositionMoveEndEvent e) => _mapState.widget.onCameraMoveEnd!(e.value));
     }
+
+    if (_mapState.widget.onMapPoiTap != null) {
+      _methodChannel
+      .onMapPoiTouch(mapId: mapId)
+          .listen((MapPoiTouchEvent e) => _mapState.widget.onMapPoiTap!(e.value));
+    }
   }
 
   void dispose() {

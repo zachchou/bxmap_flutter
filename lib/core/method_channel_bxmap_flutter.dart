@@ -69,6 +69,11 @@ class MethodChannelBXMapFlutterMap implements BXMapFLutterPlatform {
     return _events(mapId).whereType<CameraPositionMoveEndEvent>();
   }
 
+  ///点击POI点
+  Stream<MapPoiTouchEvent> onMapPoiTouch({required int mapId}) {
+    return _events(mapId).whereType<MapPoiTouchEvent>();
+  }
+
   Future<void> cameraChange(
       CameraPosition cameraPosition,
       {required int mapId}) async {
@@ -133,12 +138,12 @@ class MethodChannelBXMapFlutterMap implements BXMapFLutterPlatform {
       //     .add(PolylineTapEvent(mapId, call.arguments['polylineId']));
         break;
       case 'map#onPoiTouched':
-      // try {
-      //   _mapEventStreamController.add(
-      //       MapPoiTouchEvent(mapId, AMapPoi.fromJson(call.arguments['poi'])!));
-      // } catch (e) {
-      //   print('map#onPoiTouched error===>' + e.toString());
-      // }
+      try {
+        _mapEventStreamController.add(
+            MapPoiTouchEvent(mapId, CameraPosition.fromMap(call.arguments['position'])!));
+      } catch (e) {
+        print('map#onPoiTouched error===>' + e.toString());
+      }
         break;
     }
   }

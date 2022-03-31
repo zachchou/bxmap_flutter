@@ -16,8 +16,11 @@ class BXMapWidget extends StatefulWidget {
   final CameraPosition initialCameraPosition;
   /// 地图创建成功的回调, 收到此回调之后才可以操作地图
   final MapCreatedCallback? onMapCreated;
-  //相机视角移动回调
+  /// 相机视角移动结束回调
   final ArgumentCallback<CameraPosition>? onCameraMoveEnd;
+  /// 点击地图POI点回调
+  final ArgumentCallback<CameraPosition>? onMapPoiTap;
+  ///
 
   const BXMapWidget({
     Key? key,
@@ -26,7 +29,8 @@ class BXMapWidget extends StatefulWidget {
     this.initialCameraPosition = const CameraPosition(target: LatLng(22.548515, 114.066112), zoom: 10),
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.onMapCreated,
-    this.onCameraMoveEnd
+    this.onCameraMoveEnd,
+    this.onMapPoiTap
   }): super(key: key);
 
   @override

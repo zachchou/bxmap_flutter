@@ -73,6 +73,6 @@ class PolylineTapEvent extends MapEvent<String> {
 }
 
 /// Poi点击事件
-class MapPoiTouchEvent extends MapEvent<BxMapPoi> {
-  MapPoiTouchEvent(int mapId, BxMapPoi poi) : super(mapId, poi);
+class MapPoiTouchEvent extends MapEvent<CameraPosition> {
+  MapPoiTouchEvent(int mapId, CameraPosition value) : super(mapId, value);
 }

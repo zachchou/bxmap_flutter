@@ -13,7 +13,12 @@
 #import <QMapKit/QMSSearchServices.h>
 #import <QMapKit/QMSSearcher.h>
 
-
+// 8.重新定义系统的NSLog，__OPTIMIZE__ 是release 默认会加的宏
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
 static const int CENTER_IV_WIDTH = 48;
 
 @interface BXMapViewController ()<QMapViewDelegate, QMSSearchDelegate>
@@ -243,10 +248,13 @@ static const int CENTER_IV_WIDTH = 48;
 - (void)mapView:(QMapView *)mapView regionDidChangeAnimated:(BOOL)animated gesture:(BOOL)bGesture {
     NSLog(@"%s,mapView:%@ ",__func__,mapView);
     NSLog(@"longitude: %f---latitude: %f",mapView.centerCoordinate.longitude, mapView.centerCoordinate.latitude);
-    BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
-    cameraPo.target = mapView.centerCoordinate;
-    NSDictionary *dict = [cameraPo toDictionary];
-    [_channel invokeMethod:@"camera#onMoveEnd" arguments:@{@"position":dict}];
+    NSLog(@"bGesture: %@", @(bGesture));
+    if (bGesture) {
+        BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
+        cameraPo.target = mapView.centerCoordinate;
+        NSDictionary *dict = [cameraPo toDictionary];
+        [_channel invokeMethod:@"camera#onMoveEnd" arguments:@{@"position":dict}];
+    }
 }
 
 /**
@@ -291,7 +299,7 @@ static const int CENTER_IV_WIDTH = 48;
     BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
     cameraPo.target = poi.coordinate;
     NSDictionary *dict = [cameraPo toDictionary];
-    [_channel invokeMethod:@"poi#didTap" arguments:@{@"position": dict}];
+    [_channel invokeMethod:@"map#onPoiTouched" arguments:@{@"position": dict}];
     [mapView setCenterCoordinate:poi.coordinate animated:YES];
 }
 

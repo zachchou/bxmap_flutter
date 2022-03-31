@@ -97,6 +97,7 @@ class _MyAppState extends State<MyApp> {
       initialCameraPosition: _bInitialPositon,
       onCameraMoveEnd: _onBxCameraMoveEnd,
       onMapCreated: _onMapCreated,
+      onMapPoiTap: _onMapPoiTap,
     );
 
     return MaterialApp(
@@ -122,12 +123,16 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _onMapPoiTap(CameraPosition cameraPosition) {
+    print("camera: $cameraPosition");
+  }
+
   _onBxCameraMoveEnd(CameraPosition cameraPosition) {
     // print("came: $cameraPosition");
-    // Future.delayed(Duration(seconds: 2)).then((value){
-    //   final CameraPosition _bInitialPositon = CameraPosition(target: LatLng(27.038065, 119.370293));
-    //   _mapController!.cameraChange(_bInitialPositon);
-    // });
+    Future.delayed(Duration(seconds: 2)).then((value){
+      final CameraPosition _bInitialPositon = CameraPosition(target: LatLng(27.038065, 119.370293));
+      _mapController!.cameraChange(_bInitialPositon);
+    });
 
   }
 }
