@@ -108,6 +108,11 @@ static const int CENTER_IV_WIDTH = 48;
 }
 - (void)backLocationTap {
     [_mapView setCenterCoordinate:_mapView.userLocation.location.coordinate animated:YES];
+
+    BXMapCameraPosition *cameraPo = [[BXMapCameraPosition alloc] init];
+    cameraPo.target = _mapView.userLocation.location.coordinate;
+    NSDictionary *dict = [cameraPo toDictionary];
+    [_channel invokeMethod:@"camera#onMoveEnd" arguments:@{@"position":dict}];
 }
 - (nonnull UIView *)view {
     return _mapView;

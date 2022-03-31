@@ -148,7 +148,7 @@ public class MapController
     @Override
     public void onMapClick(LatLng latLng) {
         System.out.println(CLASS_NAME + " onMapClick " + latLng);
-        tmap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//        tmap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     @Override
@@ -161,8 +161,10 @@ public class MapController
     public void onClicked(MapPoi mapPoi) {
         System.out.println(CLASS_NAME + " onClicked " + mapPoi);
         tmap.moveCamera(CameraUpdateFactory.newLatLng(mapPoi.getPosition()));
-//        methodChannel.invokeMethod("poi#didTap",);
-
+//        final Map<String, Object> arguments = new HashMap<>(2);
+//        CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(new LatLng(mapPoi.getLatitude(), mapPoi.getLongitude()), 0);
+//        arguments.put("position", ConvertUtil.cameraPositonToMap(cameraPosition));
+//        methodChannel.invokeMethod("map#onPoiTouched", arguments);
     }
 
     @Override
